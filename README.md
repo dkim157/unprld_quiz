@@ -1,1 +1,1 @@
-UNPRLD Quiz (Has bar graph)
+UNPRLD Quiz
