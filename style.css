@@ -51,6 +51,7 @@ body{
 .container{
   width: 600px;
   max-width: 80%;
+  min-width: 260px;
   background-color: #ebebeb;
   /*background-color: #ebebeb;*/
   border-radius: 5px;
@@ -156,4 +157,10 @@ body{
 #yoyo-result-5{
   min-height: 30px;
   width: 2%;
+}
+
+@media only screen and (max-width: 460px) {
+  .yoyo-result{
+    max-width: 50%;
+  }
 }
