@@ -3,6 +3,7 @@ const startButton = document.getElementById("start-btn");
 const questionContainer = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const resultContainer = document.getElementById("result-container");
+const container = document.getElementById("container");
 
 const resultElement1 = document.getElementById("yoyo-result-1");
 const resultElement2 = document.getElementById("yoyo-result-2");
@@ -32,6 +33,7 @@ function startQuiz(){
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     questionIdx = 0;
     questionContainer.classList.remove("hide");
+    container.classList.remove("hide");
     setNextQuestion();
 }
 
