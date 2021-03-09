@@ -204,56 +204,56 @@ let questions = [
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Aidan Cioch" },
+            { text: "Patrick Canny" },
             { text: "Yuki Nishisako" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Patrick Canny" },
-            { text: "Evan Nagao" }
+            { text: "Keiran Cooper" },
+            { text: "Shuyun Tang" }
+        ]
+    },
+    {
+        question: questionToBeAsked,
+        answers: [
+            { text: "Tsukasa Takatsu" },
+            { text: "Iori Yamaki" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
             { text: "Gentry Stein" },
-            { text: "Keiran Cooper" }
-        ]
-    },
-    {
-        question: questionToBeAsked,
-        answers: [
-            { text: "Yuuki Spencer" },
             { text: "Zach Gormley" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Arata Imai" },
-            { text: "Jason Liu" }
+            { text: "Aidan Cioch" },
+            { text: "Arata Imai" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Daniel Kim" },
+            { text: "Jason Liu" },
             { text: "Sid Seed" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Iori Yamaki" },
-            { text: "Tsukasa Takatsu" }
+            { text: "Daniel Kim" },
+            { text: "Evan Nagao" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Shuyun Tang" },
+            { text: "Yuuki Spencer" },
             { text: "Colin Beckford" }
         ]
     },
