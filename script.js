@@ -3,7 +3,13 @@ const startButton = document.getElementById("start-btn");
 const questionContainer = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const resultContainer = document.getElementById("result-container");
-const resultElement = document.getElementById("result-yoyo");
+
+const resultElement1 = document.getElementById("yoyo-result-1");
+const resultElement2 = document.getElementById("yoyo-result-2");
+const resultElement3 = document.getElementById("yoyo-result-3");
+const resultElement4 = document.getElementById("yoyo-result-4");
+const resultElement5 = document.getElementById("yoyo-result-5");
+
 const answerButtonElement = document.getElementById("answer-buttons");
 
 var user = {
@@ -62,7 +68,7 @@ function selectAnswer(e){
 }
 
 function countAnswer(answer){
-    let yoyo = dict[answer];
+    let yoyo = playerDict[answer];
     if(yoyo == "flashback")
         user["Flashback"]++;
     if(yoyo == "recognition")
@@ -81,12 +87,94 @@ function endQuiz(){
     while(answerButtonElement.firstChild){
         answerButtonElement.removeChild(answerButtonElement.firstChild);
     }
-    
+
     // update result
-    resultElement.innerText = "the " + getCustomYoyo() + "!";
+    updateGraph();
 
     // show result container    
     resultContainer.classList.remove("hide");
+}
+
+function updateGraph(){
+    var userStats = [];
+    var i = 0;
+
+    // Create items array
+    for(element in user){
+        userStats[i] = [element, user[element]];
+        i++;
+    }
+
+    createArray(userStats);
+
+    // update graph
+    for(i=0; i<5; i++){
+        updateElement(userStats, i);
+    }
+}
+
+function updateElement(userStats, i){
+    var barWidth = userStats[i][1]*18 + "%";
+
+    if(i==0)
+        updateElement1(userStats[i], barWidth);
+    if(i==1)
+        updateElement2(userStats[i], barWidth);
+    if(i==2)
+        updateElement3(userStats[i], barWidth);
+    if(i==3)
+        updateElement4(userStats[i], barWidth);
+    if(i==4)
+        updateElement5(userStats[i], barWidth);
+}
+
+function updateElement1(statArr, barWidth){
+    resultElement1.style.width = barWidth;
+    document.getElementById("yoyo1").innerHTML = statArr[0];
+    // console.log(statArr[0]);
+    // console.log(statArr[1]);
+}
+
+function updateElement2(statArr, barWidth){
+    resultElement2.style.width = barWidth;
+    document.getElementById("yoyo2").innerHTML = statArr[0];
+    // console.log(statArr[0]);
+    // console.log(statArr[1]);
+}
+
+function updateElement3(statArr, barWidth){
+    resultElement3.style.width = barWidth;
+    document.getElementById("yoyo3").innerHTML = statArr[0];
+    // console.log(statArr[0]);
+    // console.log(statArr[1]);
+}
+
+function updateElement4(statArr, barWidth){
+    resultElement4.style.width = barWidth;
+    document.getElementById("yoyo4").innerHTML = statArr[0];
+    // console.log(statArr[0]);
+    // console.log(statArr[1]);
+}
+
+function updateElement5(statArr, barWidth){
+    resultElement5.style.width = barWidth;
+    document.getElementById("yoyo5").innerHTML = statArr[0];
+    // console.log(statArr[0]);
+    // console.log(statArr[1]);
+}
+
+function createArray(userStats)
+{
+    userStats.sort(sortFunction);
+
+    function sortFunction(a, b) {
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] > b[1]) ? -1 : 1;
+        }
+    }
 }
 
 function getCustomYoyo()
@@ -105,7 +193,7 @@ function getCustomYoyo()
     return bestYoyo;
 }
 
-const questions = [
+let questions = [
     {
         question: questionToBeAsked,
         answers: [
@@ -116,56 +204,56 @@ const questions = [
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Aidan Cioch" },
+            { text: "Patrick Canny" },
             { text: "Yuki Nishisako" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Patrick Canny" },
-            { text: "Evan Nagao" }
+            { text: "Keiran Cooper" },
+            { text: "Shuyun Tang" }
+        ]
+    },
+    {
+        question: questionToBeAsked,
+        answers: [
+            { text: "Tsukasa Takatsu" },
+            { text: "Iori Yamaki" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
             { text: "Gentry Stein" },
-            { text: "Keiran Cooper" }
-        ]
-    },
-    {
-        question: questionToBeAsked,
-        answers: [
-            { text: "Yuuki Spencer" },
             { text: "Zach Gormley" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Arata Imai" },
-            { text: "Jason Liu" }
+            { text: "Aidan Cioch" },
+            { text: "Arata Imai" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Daniel Kim" },
+            { text: "Jason Liu" },
             { text: "Sid Seed" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Iori Yamaki" },
-            { text: "Tsukasa Takatsu" }
+            { text: "Daniel Kim" },
+            { text: "Evan Nagao" }
         ]
     },
     {
         question: questionToBeAsked,
         answers: [
-            { text: "Shuyun Tang" },
+            { text: "Yuuki Spencer" },
             { text: "Colin Beckford" }
         ]
     },
@@ -178,7 +266,7 @@ const questions = [
     }
 ]
 
-var dict = {
+var playerDict = {
     "Tetsuto Kato": "flashback",
     "Yuki Nishisako": "flashback",
     "Keiran Cooper": "flashback",
@@ -229,35 +317,3 @@ yoMap["recognition"] = recognition;
 yoMap["elevation"] = elevation;
 yoMap["nostalgia"] = nostalgia;
 yoMap["reduction"] = reduction;
-
-// each player has a "favorite yoyo"
-function Player(name, yoyo){
-    this.name = name;
-    this.yoyo = yoyo;
-}
-
-// flashback yoyoers
-let tagyo = new Player("Tetsuto Kato", "flashback");
-let yuki = new Player("Yuki Nishisako", "flashback");
-let keiran = new Player("Keiran Cooper", "flashback");
-let iori = new Player("Iori Yamaki", "flashback");
-// recog yoyoers
-let remy = new Player("Remy Baskin", "recognition");
-let aidan = new Player("Aidan Cioch", "recognition");
-let gentry = new Player("Gentry Stein", "recognition");
-let jason = new Player("Jason Liu", "recognition");
-// elev yoyoers
-let canny = new Player("Patrick Canny", "elevation");
-let zach = new Player("Zach Gormley", "elevation");
-let dkim = new Player("Daniel Kim", "elevation");
-let colin = new Player("Colin Beckford", "elevation");
-// nos yoyoers
-let shuyun = new Player("Shuyun Tang", "nostalgia");
-let arata = new Player("Arata Imai", "nostalgia");
-let evan = new Player("Evan Nagao", "nostalgia");
-let nick = new Player("Nick De Valpine", "nostalgia");
-// reduc yoyoers
-let yuuki = new Player("Yuuki Spencer", "reduction");
-let sid = new Player("Sid Seed", "reduction");
-let tsukasa = new Player("Tsukasa Takatsu", "reduction");
-let isaac = new Player("Isaac Sams", "reduction");
