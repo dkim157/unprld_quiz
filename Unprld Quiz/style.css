@@ -104,23 +104,23 @@ body{
   text-align: right;
 }
 
-.yoyo-result-1{
+#yoyo-result-1{
   min-height: 30px;
   width: 72%;
 }
-.yoyo-result-2{
+#yoyo-result-2{
   min-height: 30px;
-  width: 56%;
+  width: 54%;
 }
-.yoyo-result-3{
+#yoyo-result-3{
   min-height: 30px;
   width: 36%;
 }
-.yoyo-result-4{
+#yoyo-result-4{
   min-height: 30px;
   width: 18%;
 }
-.yoyo-result-5{
+#yoyo-result-5{
   min-height: 30px;
   width: 2%;
 }
