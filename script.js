@@ -1,4 +1,4 @@
-const questionToBeAsked = "Which player do you prefer?";
+const questionText = "Which player do you prefer?";
 const startButton = document.getElementById("start-btn");
 const questionContainer = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
@@ -9,6 +9,9 @@ const resultElement2 = document.getElementById("yoyo-result-2");
 const resultElement3 = document.getElementById("yoyo-result-3");
 const resultElement4 = document.getElementById("yoyo-result-4");
 const resultElement5 = document.getElementById("yoyo-result-5");
+
+let resultArr = [resultElement1, resultElement2, resultElement3, resultElement4, 
+    resultElement5];
 
 const answerButtonElement = document.getElementById("answer-buttons");
 
@@ -55,10 +58,10 @@ function resetState(){
 }
 
 function selectAnswer(e){
-    const selectedButton = e.target;
-    countAnswer(selectedButton.innerText);
+    countAnswer(e.target.innerText);
 
     questionIdx++;
+
     if(questionIdx == shuffledQuestions.length){
         endQuiz();
     }
@@ -69,16 +72,7 @@ function selectAnswer(e){
 
 function countAnswer(answer){
     let yoyo = playerDict[answer];
-    if(yoyo == "flashback")
-        user["Flashback"]++;
-    if(yoyo == "recognition")
-        user["Recognition"]++;
-    if(yoyo == "elevation")
-        user["Elevation"]++;
-    if(yoyo == "nostalgia")
-        user["Nostalgia"]++;
-    if(yoyo == "reduction")
-        user["Reduction"]++;
+    user[yoyo]++;
 }
 
 function endQuiz(){
@@ -97,13 +91,6 @@ function endQuiz(){
 
 function updateGraph(){
     var userStats = [];
-    var i = 0;
-
-    // Create items array
-    for(element in user){
-        userStats[i] = [element, user[element]];
-        i++;
-    }
 
     createArray(userStats);
 
@@ -113,60 +100,19 @@ function updateGraph(){
     }
 }
 
-function updateElement(userStats, i){
-    var barWidth = userStats[i][1]*18 + "%";
-
-    if(i==0)
-        updateElement1(userStats[i], barWidth);
-    if(i==1)
-        updateElement2(userStats[i], barWidth);
-    if(i==2)
-        updateElement3(userStats[i], barWidth);
-    if(i==3)
-        updateElement4(userStats[i], barWidth);
-    if(i==4)
-        updateElement5(userStats[i], barWidth);
-}
-
-function updateElement1(statArr, barWidth){
-    resultElement1.style.width = barWidth;
-    document.getElementById("yoyo1").innerHTML = statArr[0];
-    // console.log(statArr[0]);
-    // console.log(statArr[1]);
-}
-
-function updateElement2(statArr, barWidth){
-    resultElement2.style.width = barWidth;
-    document.getElementById("yoyo2").innerHTML = statArr[0];
-    // console.log(statArr[0]);
-    // console.log(statArr[1]);
-}
-
-function updateElement3(statArr, barWidth){
-    resultElement3.style.width = barWidth;
-    document.getElementById("yoyo3").innerHTML = statArr[0];
-    // console.log(statArr[0]);
-    // console.log(statArr[1]);
-}
-
-function updateElement4(statArr, barWidth){
-    resultElement4.style.width = barWidth;
-    document.getElementById("yoyo4").innerHTML = statArr[0];
-    // console.log(statArr[0]);
-    // console.log(statArr[1]);
-}
-
-function updateElement5(statArr, barWidth){
-    resultElement5.style.width = barWidth;
-    document.getElementById("yoyo5").innerHTML = statArr[0];
-    // console.log(statArr[0]);
-    // console.log(statArr[1]);
-}
-
 function createArray(userStats)
 {
-    userStats.sort(sortFunction);
+    var i = 0;
+    
+    // populate array
+    for(element in user)
+    {
+        userStats[i] = [element, user[element]];
+        i++;
+    }
 
+    //sort array
+    userStats.sort(sortFunction);
     function sortFunction(a, b) {
         if (a[1] === b[1]) {
             return 0;
@@ -177,143 +123,157 @@ function createArray(userStats)
     }
 }
 
-function getCustomYoyo()
-{
-    let bestYoyo;
-    let max = 0;
+function updateElement(userStats, i){
+    var barWidth = userStats[i][1]*18 + "%";
 
-    for(element in user)
-    {
-        if(user[element] > max){
-            max = user[element];
-            bestYoyo = element;
-        }
-    }
-
-    return bestYoyo;
+    resultArr[i].style.width = barWidth;
+    document.getElementById("yoyo" + (i+1)).innerHTML = userStats[i][0];
 }
+
+function Queue() {
+    this.elements = [];
+}
+Queue.prototype.enqueue = function (e) {
+    this.elements.push(e);
+};
+Queue.prototype.dequeue = function () {
+    return this.elements.shift();
+};
+Queue.prototype.isEmpty = function () {
+    return this.elements.length == 0;
+};
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+let fbQ = new Queue();
+fbQ.elements = ["Tetsuto Kato", "Yuki Nishisako", "Keiran Cooper", "Iori Yamaki"];
+shuffleArray(fbQ.elements);
+
+let recogQ = new Queue();
+recogQ.elements = ["Remy Baskin", "Colin Beckford", "Gentry Stein", "Jason Liu", 
+    "Park Jun Sang"];
+shuffleArray(recogQ.elements);
+
+let elevQ = new Queue();
+elevQ.elements = ["Patrick Canny", "Zach Gormley", "Daniel Kim", "Aidan Cioch"];
+shuffleArray(elevQ.elements);
+
+let nosQ = new Queue();
+nosQ.elements = ["Shuyun Tang", "Arata Imai", "Evan Nagao", "Nick De Valpine", 
+    "In Hyeok Choi"];
+shuffleArray(nosQ.elements);
+
+let reducQ = new Queue();
+reducQ.elements = ["Yuuki Spencer", "Sid Seed", "Tsukasa Takatsu", "Isaac Sams",
+    "Abel Feher"];
+shuffleArray(reducQ.elements);
 
 let questions = [
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Tetsuto Kato" },
-            { text: "Remy Baskin" }
+            { text: fbQ.dequeue() },
+            { text: recogQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Patrick Canny" },
-            { text: "Yuki Nishisako" }
+            { text: elevQ.dequeue() },
+            { text: fbQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Keiran Cooper" },
-            { text: "Shuyun Tang" }
+            { text: fbQ.dequeue() },
+            { text: nosQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Tsukasa Takatsu" },
-            { text: "Iori Yamaki" }
+            { text: reducQ.dequeue() },
+            { text: fbQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Gentry Stein" },
-            { text: "Zach Gormley" }
+            { text: recogQ.dequeue() },
+            { text: elevQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Aidan Cioch" },
-            { text: "Arata Imai" }
+            { text: elevQ.dequeue() },
+            { text: nosQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Jason Liu" },
-            { text: "Sid Seed" }
+            { text: recogQ.dequeue() },
+            { text: reducQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Daniel Kim" },
-            { text: "Evan Nagao" }
+            { text: elevQ.dequeue() },
+            { text: nosQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Yuuki Spencer" },
-            { text: "Colin Beckford" }
+            { text: reducQ.dequeue() },
+            { text: recogQ.dequeue() }
         ]
     },
     {
-        question: questionToBeAsked,
+        question: questionText,
         answers: [
-            { text: "Nick De Valpine" },
-            { text: "Isaac Sams" }
+            { text: nosQ.dequeue() },
+            { text: reducQ.dequeue() }
         ]
     }
 ]
 
 var playerDict = {
-    "Tetsuto Kato": "flashback",
-    "Yuki Nishisako": "flashback",
-    "Keiran Cooper": "flashback",
-    "Iori Yamaki": "flashback",
+    "Tetsuto Kato": "Flashback",
+    "Yuki Nishisako": "Flashback",
+    "Keiran Cooper": "Flashback",
+    "Iori Yamaki": "Flashback",
 
-    "Remy Baskin": "recognition",
-    "Aidan Cioch": "recognition",
-    "Gentry Stein": "recognition",
-    "Jason Liu": "recognition",
+    "Remy Baskin": "Recognition",
+    "Colin Beckford": "Recognition",
+    "Gentry Stein": "Recognition",
+    "Jason Liu": "Recognition",
+    "Park Jun Sang": "Recognition",
 
-    "Patrick Canny": "elevation",
-    "Zach Gormley": "elevation",
-    "Daniel Kim": "elevation",
-    "Colin Beckford": "elevation",
+    "Patrick Canny": "Elevation",
+    "Zach Gormley": "Elevation",
+    "Daniel Kim": "Elevation",
+    "Aidan Cioch": "Elevation",
 
-    "Shuyun Tang": "nostalgia",
-    "Arata Imai": "nostalgia",
-    "Evan Nagao": "nostalgia",
-    "Nick De Valpine": "nostalgia",
+    "Shuyun Tang": "Nostalgia",
+    "Arata Imai": "Nostalgia",
+    "Evan Nagao": "Nostalgia",
+    "Nick De Valpine": "Nostalgia",
+    "In Hyeok Choi": "Nostalgia",
 
-    "Yuuki Spencer": "reduction",
-    "Sid Seed": "reduction",
-    "Tsukasa Takatsu": "reduction",
-    "Isaac Sams": "reduction"
+    "Yuuki Spencer": "Reduction",
+    "Sid Seed": "Reduction",
+    "Tsukasa Takatsu": "Reduction",
+    "Isaac Sams": "Reduction",
+    "Abel Feher": "Reduction"
 };
-
-////////////////////////////////////////// useless stuff /////////////////// yo-player reference ///////////////////
-
-// feel 0(floaty) to 10(solid)
-// speed 0(slow) to 10(fast)
-// size 0(small) to 10(big)
-function Yoyo(name, feel, speed, size){
-    this.name = name;
-    this.feel = feel;
-    this.speed = speed;
-    this.size = size;
-}
-let flashback = new Yoyo("flashback", 8, 10, 8);
-let recognition = new Yoyo("recognition", 9, 5, 8);
-let elevation = new Yoyo("elevation", 1, 17, 9);
-let nostalgia = new Yoyo("nostalgia", 5, 9, 9);
-let reduction = new Yoyo("reduction", 6, 6, 5);
-
-// each yoyo is mapped to its name
-let yoMap = new Map();
-yoMap["flashback"] = flashback;
-yoMap["recognition"] = recognition;
-yoMap["elevation"] = elevation;
-yoMap["nostalgia"] = nostalgia;
-yoMap["reduction"] = reduction;
