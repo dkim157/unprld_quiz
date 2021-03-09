@@ -52,6 +52,7 @@ body{
   width: 600px;
   max-width: 80%;
   background-color: #ebebeb;
+  /*background-color: #ebebeb;*/
   border-radius: 5px;
   padding: 10px;
   z-index: 2;
@@ -59,7 +60,7 @@ body{
 
 .question{
   font-weight: bold;
-  font-size: 15.5pt;
+  font-size: 14pt;
 }
 
 .btn-grid{
@@ -77,7 +78,7 @@ body{
   padding: 5px 10px;
   color: white;
   outline: none;
-  font-size: 16pt;
+  font-size: 14pt;
 }
 
 .btn:hover{
